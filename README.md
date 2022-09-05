@@ -1,6 +1,6 @@
 ## Display data on cards using API
 
-# Here I have used the fetch() method to make a call. Everytime a person clicks on Get Users button, the api is called and displayed.
+Here I have used the fetch() method to make a call. Everytime a person clicks on Get Users button, the api is called and displayed.
 
 There is a loading state, which remains true until data is fetched and loading msg is displayed and there also is a state for error,
 so that error msg is displayed when data could not be fetched.
