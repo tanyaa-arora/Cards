@@ -1,23 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
-
+import Cards from "./Cards";
+import Navbar from "./Navbar";
+import { useState } from "react";
 function App() {
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  function handleClick() {
+
+    fetch("https://reqres.in/api/users?page=2")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `This is an HTTP error: The status is ${response.status}`
+          )
+        }
+        return response.json()
+      })
+      .then(actualData => {
+        setData(actualData)
+        setError(null)
+      })
+      .catch(err => {
+        setError(err.message)
+        setData(null)
+      })
+      .finally(() => {
+        setLoading(false)
+      }
+
+      )
+
+  }
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar handle={handleClick} />
+      {/* {loading && <div>A moment please</div>} */}
+      {error &&
+        (<div>{`There is a problem fetching the data - ${error}`}</div>)}
+      {data && <Cards data={data} loading={loading}/>}
     </div>
   );
 }
